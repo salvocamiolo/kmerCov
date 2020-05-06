@@ -1,3 +1,7 @@
 *.fastq
 *.fq
 *.jf
+*.png
+jellyfishOutput.txt
+genotypeFasta.fasta
+alignedGenotypeFasta.fasta
