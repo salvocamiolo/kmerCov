@@ -9,7 +9,7 @@ condaDir = sys.argv[3]
 cutoff = int(sys.argv[4])
 
 #Creating jellyfish Database
-#os.system(condaDir+"/bin/jellyfish count -m 17 -s 100M -C -t 6 "+read1+" "+read2)
+os.system(condaDir+"/bin/jellyfish count -m 17 -s 100M -C -t 6 "+read1+" "+read2)
 
 #Collecting longest sequence per genotype
 longestSeq = {}
