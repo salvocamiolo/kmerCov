@@ -22,7 +22,7 @@ for seq_record in SeqIO.parse("geneClassification.fasta","fasta"):
     
 
 
-hyperVariableGenes = ['rl12','ul9','ul1','ul120','rl5a']
+hyperVariableGenes = ['rl12','ul9','ul1','ul120','rl5a','ul74','ul73','ul146','ul20','rl6','ul139','ul11','rl13']
 
 for gene in hyperVariableGenes:
     
