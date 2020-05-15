@@ -68,7 +68,7 @@ for gene in hyperVariableGenes:
         print("Analyzing combination %s / %s combination" %(gene,genotype))
         os.system(condaDir+"/bin/jellyfish query mer_counts.jf "+kmerDict[genotype].replace(","," ")+" >jellyfishOutput.txt")
 
-        infile = open("jellyFishOutput.txt")
+        infile = open("jellyfishOutput.txt")
         while True:
             line = infile.readline().rstrip()
             if not line:
