@@ -50,7 +50,7 @@ for gene in hyperVariableGenes:
     kmerPos = {}
     kmerPosList = {}
     for genotype in kmerDict:
-        kmerCountFile.write(genotype+":\n")
+        
         print("positioning kmers for genotype",genotype)
         if not genotype in totReadsPerGenotype:
             totReadsPerGenotype[genotype] = 0
@@ -67,6 +67,7 @@ for gene in hyperVariableGenes:
         
     #Search all the kmers of each genotype within the reads with jellyfish
     for genotype in kmerDict:
+        kmerCountFile.write(genotype+":\n")
         print("Analyzing combination %s / %s combination" %(gene,genotype))
         os.system(condaDir+"/bin/jellyfish query mer_counts.jf "+kmerDict[genotype].replace(","," ")+" >jellyfishOutput.txt")
 
