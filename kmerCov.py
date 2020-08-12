@@ -25,6 +25,7 @@ for seq_record in SeqIO.parse("geneClassification.fasta","fasta"):
 hyperVariableGenes = ['rl12','ul9','ul1','ul120','rl5a','ul74','ul73','ul146','ul20','rl6','ul139','ul11','rl13']
 
 for gene in hyperVariableGenes:
+    kmerCountFile = open(gene+"_kmerCounts.txt","w")
     
     totReadsPerGenotype = {}
     kmerDict = {}
@@ -49,6 +50,7 @@ for gene in hyperVariableGenes:
     kmerPos = {}
     kmerPosList = {}
     for genotype in kmerDict:
+        kmerCountFile.write(genotype+":\n")
         print("positioning kmers for genotype",genotype)
         if not genotype in totReadsPerGenotype:
             totReadsPerGenotype[genotype] = 0
@@ -77,6 +79,7 @@ for gene in hyperVariableGenes:
             
             #if a kmer is found with occurances > cutoff the corresponding sequence is reported in fasta file
             if int(fields[1])>cutoff:
+                kmerCountFile.write(fields[0]+"\t"+fields[1]+"\n")
                 foundGenotypes.add(genotype)
                 if not genotype in dataToPlot:
                     dataToPlot[genotype] = []
@@ -87,6 +90,8 @@ for gene in hyperVariableGenes:
                     dataToPlot[genotype].append((kmerPos[genotype][Seq.reverse_complement(fields[0])],int(fields[1])))
                     totReadsPerGenotype[genotype]+=int(fields[1])
         infile.close()
+    
+    kmerCountFile.close()
 
 
 
