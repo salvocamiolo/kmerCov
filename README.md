@@ -13,7 +13,7 @@ genotypes
 ## How it works
 An example command will be
 
-python3 kmerCov.py read_1.fastq read_2.fastq condaDir cutoff
+python3 kmerCov.py read_1.fastq read_2.fastq condaDir cutoff outputFolder
 
 with condaDir being the full path the (mini)conda environment and cutoff is the minimum number
 of reads for which a genotype is detected. Two software must be installed in the conda environment:
