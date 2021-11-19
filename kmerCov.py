@@ -7,9 +7,12 @@ read1 = sys.argv[1]
 read2 = sys.argv[2]
 condaDir = sys.argv[3]
 cutoff = int(sys.argv[4])
+outputFolder = sys.argv[5]
 
 #Creating jellyfish Database
-os.system(condaDir+"/bin/jellyfish count -m 17 -s 100M -C -t 6 "+read1+" "+read2)
+os.system("mkdir "+outputFolder)
+#print("\n"+condaDir+"/bin/jellyfish count -m 17 -s 100M -C -t 6 -o "+outputFolder+"/mer_counts.jf "+read1+" "+read2)
+os.system(condaDir+"/bin/jellyfish count -m 17 -s 100M -C -t 6 -o "+outputFolder+"/mer_counts.jf "+read1+" "+read2)
 
 #Collecting longest sequence per genotype
 longestSeq = {}
@@ -26,14 +29,14 @@ hyperVariableGenes = ['rl12','ul9','ul1','ul120','rl5a','ul74','ul73','ul146','u
 
 for gene in hyperVariableGenes:
     alignmentLength = 0
-    kmerCountFile = open(gene+"_kmerCounts.txt","w")
+    kmerCountFile = open(outputFolder+"/"+gene+"_kmerCounts.txt","w")
     
     totReadsPerGenotype = {}
     kmerDict = {}
     dataToPlot = {}
     foundGenotypes = set()
 
-    genotypeFasta = open("genotypeFasta.fasta","w")
+    genotypeFasta = open(outputFolder+"/genotypeFasta.fasta","w")
 
     #Load in memory all kmers of each genotype of the gene
     infile = open("mainDB_seqs_filtered.txt")
@@ -70,9 +73,9 @@ for gene in hyperVariableGenes:
     for genotype in kmerDict:
         kmerCountFile.write(genotype+":\n")
         print("Analyzing combination %s / %s combination" %(gene,genotype))
-        os.system(condaDir+"/bin/jellyfish query mer_counts.jf "+kmerDict[genotype].replace(","," ")+" >jellyfishOutput.txt")
+        os.system(condaDir+"/bin/jellyfish query "+outputFolder+"/mer_counts.jf "+kmerDict[genotype].replace(","," ")+" >"+outputFolder+"/jellyfishOutput.txt")
 
-        infile = open("jellyfishOutput.txt")
+        infile = open(outputFolder+"/jellyfishOutput.txt")
         while True:
             line = infile.readline().rstrip()
             if not line:
@@ -104,12 +107,12 @@ for gene in hyperVariableGenes:
     genotypeFasta.close()
 
     #Align the found sequences with mafft
-    os.system(condaDir+"bin/mafft --auto genotypeFasta.fasta > alignedGenotypeFasta.fasta")
+    os.system(condaDir+"bin/mafft --auto "+outputFolder+"/genotypeFasta.fasta > "+outputFolder+"/alignedGenotypeFasta.fasta")
 
     #Calculate the new coordinates of the kmers in the aligned sequences
     kmerNewPosDict = {}
     
-    for seq_record in SeqIO.parse("alignedGenotypeFasta.fasta","fasta"):
+    for seq_record in SeqIO.parse(outputFolder+"/alignedGenotypeFasta.fasta","fasta"):
         alignedGenotype = str(seq_record.id)
         alignmentLength = len(str(seq_record.seq))
         if not alignedGenotype in kmerNewPosDict:
@@ -186,7 +189,7 @@ for gene in hyperVariableGenes:
 
 
     ax3.axis('off')
-    fig.savefig(gene+"_kmerCov.png",dpi=300)
+    fig.savefig(outputFolder+"/"+gene+"_kmerCov.png",dpi=300)
 
 
 
