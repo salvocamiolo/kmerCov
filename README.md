@@ -19,18 +19,30 @@ with condaDir being the full path the (mini)conda environment and cutoff is the 
 of reads for which a genotype is detected. Two software must be installed in the conda environment:
 
 (a) jellyfish 
+
 conda install -c conda-forge jellyfish
+
 or
+
 conda install -c conda-forge/label/gcc7 jellyfish
+
 or
+
 conda install -c conda-forge/label/cf201901 jellyfish
+
 or
+
 conda install -c conda-forge/label/cf202003 jellyfish
 
+
 (b) mafft
+
 conda install -c bioconda mafft
+
 or
+
 conda install -c bioconda/label/cf201901 mafft
+
 
 
 
